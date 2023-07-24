@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 
 from .models import Post
 
-from .forms import PostForm
+from .forms import PostForm,CommentForm
 
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 
@@ -15,14 +15,16 @@ def post_list(request):
 class PostList(ListView):
     model = Post
 # -----------------------------------------------------------------------------------------
-def post_detail(request,post_id):
-
-    data = Post.objects.get(id=post_id)
-    return render(request,'post_detail.html',{'post':data})
-
-
 class PostDatail(DetailView):
     model = Post
+
+def post_detail(request,pk):
+
+    data = Post.objects.get(id=pk)
+
+    form = CommentForm()
+    return render(request,'blog/post_detail.html',{'post':data,'form':form})
+
 
 
 
