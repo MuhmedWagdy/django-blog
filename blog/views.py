@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 
-from .models import Post
+from .models import Post,Comment
 
 from .forms import PostForm,CommentForm
 
@@ -10,6 +10,8 @@ from django.views.generic import ListView,DetailView,CreateView,UpdateView,Delet
 # Create your views here.
 def post_list(request):
     data = Post.objects.all()
+    
+
     return render(request,'post_list.html',{'posts':data})
 
 class PostList(ListView):
@@ -21,9 +23,20 @@ class PostDatail(DetailView):
 def post_detail(request,pk):
 
     data = Post.objects.get(id=pk)
+    post_comment =  Comment.objects.filter(post=data)
 
-    form = CommentForm()
-    return render(request,'blog/post_detail.html',{'post':data,'form':form})
+    if request.method =="POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            myform = form.save(commit=False)
+            myform.user = request.user
+            myform.post = data
+            myform.save()
+    else:
+        form = CommentForm()
+
+
+    return render(request,'blog/post_detail.html',{'post':data,'form':form,'post_comment':post_comment})
 
 
 

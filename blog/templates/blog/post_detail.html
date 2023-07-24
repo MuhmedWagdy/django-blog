@@ -10,7 +10,22 @@
 <h3>Comments</h3>
 <hr>
 <h3>Add New Comments</h3>
+
+
+<ul>
+    {% for comment in post_comment %}
+    <li>
+        <h5>
+            {{comment.user}}--{{comment.create_at}}--{{comment.post}}
+        </h5>
+    </li>
+
+    {% endfor %}
+
+
+</ul>
 <form method="post">
+    {% csrf_token %}
 
     {{form}}
     <input type="submit" value="Add New Comment">
