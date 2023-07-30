@@ -33,6 +33,9 @@
                 <h3>{{post}}</h3>
                 <p>{{post.create_date}}</p>
                 <p>{{post.author}}</p>
+
+                <a href="blog/{{post.id}}/edit" class="btn btn-warning">Edit Post</a>
+                <a href="blog/{{post.id}}/delete" class="btn btn-danger">Delete Post</a>
                 <ul>
                      {%for tag in post.tags.all %}
                      <li>{{ tag }}</li>
